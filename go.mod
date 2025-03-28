@@ -1,6 +1,6 @@
 module go-fiber-mongo-crud
 
-go 1.24
+go 1.24.0
 
 require (
 	github.com/gofiber/fiber/v2 v2.52.6

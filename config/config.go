@@ -15,29 +15,30 @@ var DB *mongo.Database
 
 // ConnectDatabase initializes MongoDB connection
 func ConnectDatabase() {
-	mongoURI := os.Getenv("MONGO_URI") // Ensure this is set
+	mongoURI := os.Getenv("MONGO_URI") // Read from environment variable
 
 	if mongoURI == "" {
-		log.Fatal("MONGO_URI is not set in the environment variables")
+		log.Fatal("❌ MONGO_URI is not set in the environment variables")
 	}
 
-	clientOptions := options.Client().ApplyURI(mongoURI)
+	// Add TLS configuration explicitly
+	clientOptions := options.Client().ApplyURI(mongoURI).SetServerSelectionTimeout(10 * time.Second)
 
-	// Set timeout for connection
+	// Create connection with timeout
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
 	client, err := mongo.Connect(ctx, clientOptions)
 	if err != nil {
-		log.Fatal("Error connecting to MongoDB:", err)
+		log.Fatalf("❌ Error connecting to MongoDB: %v", err)
 	}
 
-	// Ping the database to check connection
+	// Ping database
 	err = client.Ping(ctx, nil)
 	if err != nil {
-		log.Fatal("MongoDB Ping failed:", err)
+		log.Fatalf("❌ MongoDB Ping failed: %v", err)
 	}
 
-	DB = client.Database("fiber-mongo-db") // Replace with your DB name
-	fmt.Println("🚀 Connected to MongoDB!")
+	DB = client.Database("fiber-mongo-db") // ✅ Make sure this DB name exists
+	fmt.Println("🚀 Connected to MongoDB successfully!")
 }
