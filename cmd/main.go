@@ -9,17 +9,14 @@ import (
 )
 
 func main() {
-	// Load .env file
+
 	godotenv.Load()
 
-	// Initialize MongoDB Connection
 	config.ConnectDatabase()
 
 	app := fiber.New()
 
-	// Register routes
 	routes.RegisterRoutes(app)
 
-	// Start server
 	app.Listen(":3000")
 }

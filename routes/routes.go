@@ -2,7 +2,6 @@ package routes
 
 import (
 	"go-fiber-mongo-crud/handlers"
-	"go-fiber-mongo-crud/middleware"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -15,7 +14,7 @@ func RegisterRoutes(app *fiber.App) {
 	api.Post("/auth/login", handlers.LoginUser)
 
 	// Protected routes (requires authentication)
-	api.Use(middleware.AuthMiddleware)
+	// api.Use(middleware.AuthMiddleware)
 
 	api.Post("/users", handlers.CreateUser)
 	api.Get("/users", handlers.GetUsers)

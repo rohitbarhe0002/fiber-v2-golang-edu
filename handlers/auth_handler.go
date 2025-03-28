@@ -25,8 +25,6 @@ func RegisterUser(c *fiber.Ctx) error {
 		return c.Status(500).JSON(fiber.Map{"error": "Error hashing password"})
 	}
 
-	fmt.Println("🔹 Hashed Password Before Storing:", hashedPassword)
-
 	// Store hashed password as string
 	user.Password = hashedPassword
 	user.ID = primitive.NewObjectID()
